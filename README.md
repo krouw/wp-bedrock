@@ -20,11 +20,17 @@ This folder is a volume in the docker-compose.yml file. For debian systems www-d
 
 2. Only if you are in a UNIX like system. Run `sudo chown -R $USER:$USER src` for change the owner of the src folder in the host.
 
+## Wordpress build
+
+(php8.1-apache)[https://github.com/docker-library/wordpress/tree/master/latest/php8.1/apache]
+
 ## Run
 
 docker-compose up -d db wordpress
 
 ## Wordpress
+
+(wpcli docs)[https://developer.wordpress.org/cli/commands/]
 
 ### Add language
 
@@ -47,3 +53,8 @@ docker-compose up -d db wordpress
 2. Run `docker compose run --rm wpcli wp theme activate *THEME_NAME*`
 
 
+# References
+
+(https://github.com/trenccan777/WP-Bedrock-Docker-setup)
+(https://github.com/urre/wordpress-nginx-docker-compose-image)
+(https://github.com/urre/wordpress-nginx-docker-compose)
