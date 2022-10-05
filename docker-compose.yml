@@ -1,0 +1,46 @@
+version: '3'
+
+volumes:
+  db:
+
+services:
+  db:
+    image: mariadb:10.7
+    container_name: ${APP_NAME}-db
+    volumes:
+       - 'db:/var/lib/mysql:delegated'
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_NAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    ports:
+      - '3306:3306'
+
+  wordpress:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ${APP_NAME}-wordpress
+    volumes:
+      - ./src:/var/www/html:rw,cached
+      - ./config/php.ini:/usr/local/etc/php/conf.d/php.ini
+    depends_on:
+      - db
+    ports:
+      - 8080:80
+
+  composer:
+    image: composer
+    container_name: ${APP_NAME}-composer
+    working_dir: /var/www/html
+    volumes:
+      - ./src:/var/www/html:rw,cached
+  
+  wpcli:
+    image: wordpress:cli
+    volumes:
+      - ./src:/var/www/html/
+    depends_on:
+      - db
+      - wordpress
